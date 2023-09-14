@@ -49,8 +49,8 @@
   <script>
     document.getElementById("verifyButton").addEventListener("click", function (event) {
       event.preventDefault(); 
-      const verificationUrl = this.getAttribute("href");
-      console.log(verificationUrl);
+      const verificationUrl = document.getElementById("verifyButton").getAttribute("href");
+      
       fetch(verificationUrl, {
         method: 'PATCH',
         headers: {
@@ -63,10 +63,8 @@
       })
         .then(function (response) {
           if (response.status === 200) {
-            
             alert("Email successfully verified!");
           } else {
-            
             alert("Error verifying email. Please try again later.");
           }
         })
