@@ -50,7 +50,7 @@
     document.getElementById("verifyButton").addEventListener("click", function (event) {
       event.preventDefault(); 
       const verificationUrl = this.getAttribute("href");
-      
+      console.log(verificationUrl);
       fetch(verificationUrl, {
         method: 'PATCH',
         headers: {

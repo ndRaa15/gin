@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"mime/multipart"
 	"os"
 
@@ -13,6 +14,7 @@ import (
 	"gin/internal/domain/entity"
 	"gin/internal/domain/repository"
 	"gin/internal/domain/service"
+
 	supabasestorageuploader "github.com/adityarizkyramadhan/supabase-storage-uploader"
 	"github.com/gofrs/uuid"
 )
@@ -79,7 +81,7 @@ func sendEmail(req *entity.UserRegister, uuid uuid.UUID) error {
 	mailer.SetSubject("Email Verification")
 	mailer.SetReciever(req.Email)
 	mailer.SetSender(os.Getenv("CONFIG_SENDER_NAME"))
-	mailer.SetBodyHTML(req.Username, os.Getenv("URL_VERIFY")+uuid.String())
+	mailer.SetBodyHTML(req.Username, fmt.Sprintf("%s/%s", os.Getenv("URL_VERIFY"), uuid.String()))
 	if err := mailer.SendMail(); err != nil {
 		return err
 	}
