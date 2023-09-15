@@ -46,4 +46,6 @@ var (
 	ErrBadRequest = errors.New("BAD_REQUEST")
 
 	ErrAccountAlreadyVerified = errors.New("ACCOUNT_ALREADY_VERIFIED")
+
+	ErrInstrumentIsBooked = errors.New("INSTRUMENT_IS_BOOKED")
 )

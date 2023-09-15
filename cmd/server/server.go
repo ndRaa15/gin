@@ -2,6 +2,7 @@ package server
 
 import (
 	"gin/internal/api/handler"
+	"gin/internal/domain/entity"
 
 	"gin/internal/application/repository"
 	"gin/internal/application/service"
@@ -50,7 +51,25 @@ func New() (*server, error) {
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository)
 
-	s.handler = handler.NewHandler(userService)
+	{
+		var totalInstrument int64
+		if err := db.Model(&entity.Instrument{}).Count(&totalInstrument).Error; err != nil {
+			log.Printf("[musiku-server] failed to count total instrument : %v\n", err)
+			return nil, err
+		}
+
+		if totalInstrument == 0 {
+			if err := repository.SeedInstrument(db); err != nil {
+				log.Printf("[musiku-server] failed to seed instrument : %v\n", err)
+				return nil, err
+			}
+		}
+	}
+
+	instrumentRepository := repository.NewInstrumentRepository(db)
+	instrumentService := service.NewInstrumentService(instrumentRepository)
+
+	s.handler = handler.NewHandler(userService, instrumentService)
 
 	s.router = gin.Default()
 
@@ -84,6 +103,8 @@ func (s *server) Start() {
 	})
 
 	route := s.router.Group("/api/v1")
+	route.GET("/province", s.handler.GetProvince)
+	route.GET("/city", s.handler.GetCity)
 
 	user := route.Group("/user")
 	user.POST("/register", s.handler.Register)
@@ -94,4 +115,11 @@ func (s *server) Start() {
 	user.GET("/profile", s.handler.Profile)
 	user.PATCH("/update", s.handler.UpdateUser)
 	user.PATCH("/photo-profile", s.handler.UploadPhotoProfile)
+
+	instrument := route.Group("/instruments")
+	instrument.Use(middleware.ValidateJWTToken())
+	instrument.GET("", s.handler.GetAllInstrument)
+	instrument.GET("/:id", s.handler.GetInstrumentByID)
+	instrument.PATCH("/rent/:id", s.handler.RentInstrument)
+	instrument.GET("/rent/:id/cost", s.handler.GetCost)
 }

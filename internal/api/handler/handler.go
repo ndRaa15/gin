@@ -5,10 +5,11 @@ import (
 )
 
 type Handler struct {
-	User service.UserServiceImpl
+	User       service.UserServiceImpl
+	Instrument service.InstrumentServiceImpl
 }
 
-func NewHandler(user service.UserServiceImpl) *Handler {
+func NewHandler(user service.UserServiceImpl, instrument service.InstrumentServiceImpl) *Handler {
 	return &Handler{
 		User: user,
 	}
