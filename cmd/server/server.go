@@ -91,6 +91,7 @@ func (s *server) Start() {
 	user.PATCH("/verify/:id", s.handler.VerifyAccount)
 
 	user.Use(middleware.ValidateJWTToken())
+	user.GET("/profile", s.handler.Profile)
 	user.PATCH("/update", s.handler.UpdateUser)
 	user.PATCH("/photo-profile", s.handler.UploadPhotoProfile)
 }

@@ -15,4 +15,5 @@ type UserServiceImpl interface {
 	Login(req *entity.UserLogin, ctx context.Context) (*entity.ResponseLogin, error)
 	UploadPhoto(file *multipart.FileHeader, id uuid.UUID, ctx context.Context) (*entity.User, error)
 	UpdateUser(req *entity.UserUpdate, ctx context.Context, id uuid.UUID) (*entity.User, error)
+	Profile(ctx context.Context, id uuid.UUID) (*entity.User, error)
 }

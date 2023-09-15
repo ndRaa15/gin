@@ -9,6 +9,7 @@ import (
 
 	"gin/global/response"
 	"gin/internal/domain/entity"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
 )
@@ -244,5 +245,48 @@ func (h *Handler) UploadPhotoProfile(ctx *gin.Context) {
 	default:
 		message = "Success to upload photo profile"
 		data = res
+	}
+}
+
+func (h *Handler) Profile(ctx *gin.Context) {
+	c, cancel := context.WithTimeout(ctx.Request.Context(), 15*time.Second)
+	defer cancel()
+
+	var (
+		err     error
+		message string
+		code    = http.StatusOK
+		data    interface{}
+	)
+
+	defer func() {
+		if err != nil {
+			response.Error(ctx, code, err, message, data)
+			return
+		}
+		response.Success(ctx, code, message, data)
+	}()
+
+	id, err := uuid.FromString(ctx.MustGet("user").(string))
+	if err != nil {
+		message = errors.ErrInvalidRequest.Error()
+		code = http.StatusBadRequest
+		return
+	}
+
+	user, err := h.User.Profile(c, id)
+	if err != nil {
+		code = http.StatusInternalServerError
+		message = errors.ErrInternalServer.Error()
+		return
+	}
+
+	select {
+	case <-c.Done():
+		message = errors.ErrRequestTimeout.Error()
+		code = http.StatusRequestTimeout
+	default:
+		message = "Success to upload photo profile"
+		data = user
 	}
 }

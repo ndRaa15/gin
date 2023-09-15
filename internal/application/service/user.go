@@ -216,5 +216,24 @@ func validateRequestUpdate(req *entity.UserUpdate, user *entity.User) (*entity.U
 		user.Password = hashedPassword
 	}
 
+	if req.City != "" {
+		user.City = req.City
+	}
+
+	if req.Province != "" {
+		user.Province = req.Province
+	}
+
+	if req.Street != "" {
+		user.Street = req.Street
+	}
+	return user, nil
+}
+
+func (us *UserService) Profile(ctx context.Context, id uuid.UUID) (*entity.User, error) {
+	user, err := us.Repository.FindByID(id, ctx)
+	if err != nil {
+		return nil, err
+	}
 	return user, nil
 }

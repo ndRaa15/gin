@@ -14,6 +14,9 @@ type User struct {
 	Password string    `db:"password" json:"-"`
 	Phone    string    `json:"phone" gorm:"type:varchar(13)"`
 	Photo    string    `json:"photo"`
+	City     string    `json:"city"`
+	Province string    `json:"province"`
+	Street   string    `json:"street"`
 	Status   bool      `json:"status" gorm:"default:false"`
 	CreateAt time.Time `json:"-" gorm:"autoCreateTime"`
 	UpdateAt time.Time `json:"-" gorm:"autoUpdateTime"`
@@ -43,4 +46,7 @@ type UserUpdate struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Phone    string `json:"phone"`
+	City     string `json:"city"`
+	Province string `json:"province"`
+	Street   string `json:"street"`
 }
