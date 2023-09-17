@@ -7,10 +7,13 @@ import (
 type Handler struct {
 	User       service.UserServiceImpl
 	Instrument service.InstrumentServiceImpl
+	Venue      service.VenueServiceImpl
 }
 
-func NewHandler(user service.UserServiceImpl, instrument service.InstrumentServiceImpl) *Handler {
+func NewHandler(user service.UserServiceImpl, instrument service.InstrumentServiceImpl, venue service.VenueServiceImpl) *Handler {
 	return &Handler{
-		User: user,
+		User:       user,
+		Instrument: instrument,
+		Venue:      venue,
 	}
 }

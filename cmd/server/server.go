@@ -52,6 +52,21 @@ func New() (*server, error) {
 	userService := service.NewUserService(userRepository)
 
 	{
+		var totalDays int64
+		if err := db.Model(&entity.Day{}).Count(&totalDays).Error; err != nil {
+			log.Printf("[musiku-server] failed to count total days : %v\n", err)
+			return nil, err
+		}
+
+		if totalDays == 0 {
+			if err := repository.SeedDays(db); err != nil {
+				log.Printf("[musiku-server] failed to seed days : %v\n", err)
+				return nil, err
+			}
+		}
+	}
+
+	{
 		var totalInstrument int64
 		if err := db.Model(&entity.Instrument{}).Count(&totalInstrument).Error; err != nil {
 			log.Printf("[musiku-server] failed to count total instrument : %v\n", err)
@@ -69,7 +84,24 @@ func New() (*server, error) {
 	instrumentRepository := repository.NewInstrumentRepository(db)
 	instrumentService := service.NewInstrumentService(instrumentRepository)
 
-	s.handler = handler.NewHandler(userService, instrumentService)
+	{
+		var totalVenue int64
+		if err := db.Model(&entity.Venue{}).Count(&totalVenue).Error; err != nil {
+			log.Printf("[musiku-server] failed to count total venue : %v\n", err)
+			return nil, err
+		}
+		if totalVenue == 0 {
+			if err := repository.SeedVenue(db); err != nil {
+				log.Printf("[musiku-server] failed to seed venue : %v\n", err)
+				return nil, err
+			}
+		}
+	}
+
+	venueRepository := repository.NewVenueRepository(db)
+	venueService := service.NewVenueService(venueRepository)
+
+	s.handler = handler.NewHandler(userService, instrumentService, venueService)
 
 	s.router = gin.Default()
 
