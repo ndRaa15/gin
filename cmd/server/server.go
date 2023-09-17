@@ -154,4 +154,10 @@ func (s *server) Start() {
 	instrument.GET("/:id", s.handler.GetInstrumentByID)
 	instrument.PATCH("/rent/:id", s.handler.RentInstrument)
 	instrument.GET("/rent/:id/cost", s.handler.GetCost)
+
+	venue := route.Group("/venue")
+	venue.Use(middleware.ValidateJWTToken())
+	venue.GET("", s.handler.GetAllVenue)
+	venue.GET("/:id", s.handler.GetVenueByID)
+	venue.PATCH("/:venueday_id", s.handler.RentVenue)
 }
