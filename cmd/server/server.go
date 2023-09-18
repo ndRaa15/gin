@@ -101,7 +101,39 @@ func New() (*server, error) {
 	venueRepository := repository.NewVenueRepository(db)
 	venueService := service.NewVenueService(venueRepository)
 
-	s.handler = handler.NewHandler(userService, instrumentService, venueService)
+	{
+		var totalTimes int64
+		if err := db.Model(&entity.Time{}).Count(&totalTimes).Error; err != nil {
+			log.Printf("[musiku-server] failed to count total days : %v\n", err)
+			return nil, err
+		}
+
+		if totalTimes == 0 {
+			if err := repository.SeedTime(db); err != nil {
+				log.Printf("[musiku-server] failed to seed days : %v\n", err)
+				return nil, err
+			}
+		}
+	}
+
+	{
+		var totalStudio int64
+		if err := db.Model(&entity.Studio{}).Count(&totalStudio).Error; err != nil {
+			log.Printf("[musiku-server] failed to count total venue : %v\n", err)
+			return nil, err
+		}
+		if totalStudio == 0 {
+			if err := repository.SeedStudio(db); err != nil {
+				log.Printf("[musiku-server] failed to seed venue : %v\n", err)
+				return nil, err
+			}
+		}
+	}
+
+	studioRepository := repository.NewStudioRepository(db)
+	studioService := service.NewStudioService(studioRepository)
+
+	s.handler = handler.NewHandler(userService, instrumentService, venueService, studioService)
 
 	s.router = gin.Default()
 
@@ -160,4 +192,10 @@ func (s *server) Start() {
 	venue.GET("", s.handler.GetAllVenue)
 	venue.GET("/:id", s.handler.GetVenueByID)
 	venue.PATCH("/:venueday_id", s.handler.RentVenue)
+
+	studio := route.Group("/studio")
+	studio.Use(middleware.ValidateJWTToken())
+	studio.GET("", s.handler.GetAllStudio)
+	studio.GET("/:id", s.handler.GetStudioByID)
+	studio.PATCH("/:id", s.handler.RentStudio)
 }
