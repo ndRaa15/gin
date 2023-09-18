@@ -19,8 +19,8 @@ type Studio struct {
 	Rating       float64     `json:"rating"`
 	StartTime    []StartTime `json:"start_time" gorm:"foreignKey:StudioID"`
 	EndTime      []EndTime   `json:"end_time" gorm:"foreignKey:StudioID"`
-	CreateAt     time.Time   `json:"create_at" gorm:"autoCreateTime"`
-	UpdateAt     time.Time   `json:"update_at" gorm:"autoUpdateTime"`
+	CreateAt     time.Time   `json:"-" gorm:"autoCreateTime"`
+	UpdateAt     time.Time   `json:"-" gorm:"autoUpdateTime"`
 }
 
 type StartTime struct {

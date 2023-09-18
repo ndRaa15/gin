@@ -61,7 +61,8 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        1500,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.5,
+		Photo:         "https://drive.google.com/uc?id=1Ggx8HYOrGXbqpxkl6sUkUOLk0xn4Ids5",
 	}
 
 	instrument2 := entity.Instrument{
@@ -79,7 +80,8 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        5000,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.5,
+		Photo:         "https://drive.google.com/uc?id=187tarfyKdHHX8Ttk7Fj4Px5QSAz2c8Ms",
 	}
 
 	instrument3 := entity.Instrument{
@@ -97,7 +99,8 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        1500,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.5,
+		Photo:         "https://drive.google.com/uc?id=1r9G7zWlOxDHcJx7Kh94DBVHQyWwGEFiu",
 	}
 
 	instrument4 := entity.Instrument{
@@ -115,7 +118,8 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        2000,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.3,
+		Photo:         "https://drive.google.com/uc?id=1FRQyg-_FtfS96_0pFQMNKvE4MzU7DQ5Q",
 	}
 
 	instrument5 := entity.Instrument{
@@ -133,7 +137,8 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        1000,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.6,
+		Photo:         "https://drive.google.com/uc?id=1qfPBJLBXK65WfgU8OLDyzZ6nMb9aUgbR",
 	}
 
 	instrument6 := entity.Instrument{
@@ -151,25 +156,27 @@ func SeedInstrument(db *mysql.DB) error {
 		OwnerNumber:   "+6282145278752",
 		Weight:        7000,
 		IsBooked:      true,
-		Photo:         "",
+		Rating:        4.9,
+		Photo:         "https://drive.google.com/uc?id=19wc7W3r1GtyxGp-P7mMYJ3So7nzgRU6H",
 	}
 
 	instrument7 := entity.Instrument{
-		ID:            7,
-		Name:          "Gitar Akustik",
-		Owner:         "Toko Musik Jaya",
-		ShortDesc:     "Gitar Akustik Standar",
-		Description:   "Gitar akustik klasik cocok untuk pemula dan pemain tingkat menengah. Memiliki bagian atas dari kayu spruce, bagian belakang dan samping dari kayu mahoni, dan fingerboard dari kayu rosewood.",
-		RentPrice:     50_000,
-		District:      "Lowokwaru",
+		ID:            8,
+		Name:          "Drum Set",
+		Owner:         "Toko Musik Harmoni",
+		ShortDesc:     "Drum Set Standar",
+		Description:   "Drum set lengkap dengan bass drum, snare drum, tom-tom, hi-hat, cymbals, dan pedal. Cocok untuk pemula dan pemain tingkat menengah.",
+		RentPrice:     300_000,
+		District:      "Klojen",
 		City:          "Malang",
 		Province:      "Jawa Timur",
-		Street:        "Jalan Banyuman No. 123",
-		Spesification: `Bagian Atas Kayu Spruce , Bagian Belakang dan Samping Kayu Mahoni , Fingerboard Kayu Rosewood`,
-		OwnerNumber:   "+6282145278752",
-		Weight:        1500,
+		Street:        "Jalan Pahlawan No. 456",
+		Spesification: "Termasuk bass drum, snare drum, tom-tom, hi-hat, cymbals, dan pedal",
+		OwnerNumber:   "+6281234567890",
+		Weight:        2500,
 		IsBooked:      false,
-		Photo:         "",
+		Rating:        4.2,
+		Photo:         "https://drive.google.com/uc?id=1IZ73AQXjW2HrjRlA6CHkZmBwjDKuDepQ",
 	}
 
 	instruments := []entity.Instrument{instrument1, instrument2, instrument3, instrument4, instrument5, instrument6, instrument7}

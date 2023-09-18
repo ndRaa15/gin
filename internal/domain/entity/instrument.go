@@ -22,6 +22,7 @@ type Instrument struct {
 	Weight        int       `json:"weight"`
 	IsBooked      bool      `json:"is_booked"`
 	Photo         string    `json:"photo"`
+	Rating        float64   `json:"rating"`
 	CreateAt      time.Time `json:"-" gorm:"autoCreateTime"`
 	UpdateAt      time.Time `json:"-" gorm:"autoUpdateTime"`
 }
